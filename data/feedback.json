@@ -1,32 +1,64 @@
-{
-    "company": "삼성전자",
-    "general_review": " ",
-    "reviews": [
-        {
-            "question": " ",
-            "answer": " ",
-            "comment": " "
-        },
-        {
-            "question": " ",
-            "answer": " ",
-            "comment": " "
-        },
-        {
-            "question": " ",
-            "answer": " ",
-            "comment": " "
-        },
-        {
-            "question": " ",
-            "answer": " ",
-            "comment": " "
-        },
-        {
-            "question": " ",
-            "answer": " ",
-            "comment": " "
-        }
-    ]
-}
-
+[
+    {
+        "company": "삼성전자",
+        "general_review": " ",
+        "reviews": [
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            }
+        ]
+    },
+    {
+        "company": "삼성전자",
+        "general_review": " ",
+        "reviews": [
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            },
+            {
+                "question": " ",
+                "answer": " ",
+                "comment": " "
+            }
+        ]
+    }
+]
