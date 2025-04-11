@@ -9,8 +9,8 @@ from langchain_openai import OpenAIEmbeddings
 
 def load_vector_store() -> Chroma:
     pdf_files = [
-        "../../data/2024년 하반기 3급 신입사원 채용 직무소개서.pdf",
-        "../../data/삼성전자 DS부문 24하 공채 직무기술서.pdf"
+        "../data/2024년 하반기 3급 신입사원 채용 직무소개서.pdf",
+        "../data/삼성전자 DS부문 24하 공채 직무기술서.pdf"
     ]
     docs = []
     for path in pdf_files:
@@ -49,7 +49,7 @@ def get_prompt_template() -> PromptTemplate:
         input_variables=["context", "self_instruction", "query"]
     )
 
-def get_answer(prompt:PromptTemplate, ollama:ChatOllama, context:str, self_instruction:str, query:str) :
+def get_answer(ollama:ChatOllama, context:str, self_instruction:str, query:str, prompt=get_prompt_template()) :
     """Get the answer from the chat model."""
     chain = prompt | ollama | StrOutputParser()
     for token in chain.stream({"context": context, "self_instruction": self_instruction, "query": query}):
