@@ -4,6 +4,7 @@ from service.display import print_message, print_history_message, generate_msg
 from service.history import init_history, add_history
 from service.utils import init_button_session, handle_message, is_txt_file
 from service.input import get_prompt
+from service.model import make_ai_response
 st.title("삼성전자 취업 컨설팅 챗봇")
 
 # 모델 선택 selectbox
@@ -18,7 +19,7 @@ print_message(ROLE_TYPE.assistant.name,
 init_history()
 print_history_message()
 init_button_session()
-    
+
 if st.session_state.profile_clicked == False and st.session_state.posting_clicked == False :
     if st.button("📜 자소서 피드백"):
         st.session_state.profile_clicked = True
@@ -45,7 +46,10 @@ elif st.session_state.profile_clicked == True :
             "🚨 오류 : 파일을 입력해주세요!!", MSG_TYPE.system.name, is_streaming=True)
         else : 
             file = is_txt_file(prompt.files[0])
-            st.write(file.name)
+            messages = file.read().decode("utf-8")
+            st.write(messages)
+            response = make_ai_response(MODEL[choice_model].value[1],messages=st.session_state.messages)
+            st.write(response)
 
 
 elif st.session_state.posting_clicked == True :

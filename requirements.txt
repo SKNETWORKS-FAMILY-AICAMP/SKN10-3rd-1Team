@@ -1,1 +1,15 @@
-streamlit
+python-dotenv # 환경변수를 파일(.env)에서 관리하는 라이브러리
+streamlit # 웹 애플리케이션 개발 라이브러리
+openai # 오픈AI API 클라이언트 라이브러리
+jupyter # 데이터 분석 및 시각화 툴
+pandas # 데이터 조작 및 분석 라이브러리
+streamlit_markdown # markdown streaming 라이브러리
+groq # GROQ에서 지원하는 LLM을 API 클라이언트 호출 라이브러리 
+langchain # 
+langchain_community
+ollama
+psycopg2-binary # postgresql에 접속할 수 있는 라이브러리 
+sqlalchemy # streamlit과 postgresql를 연동하게 해주는 라이블러리
+langchain-core # 랭체인의 핵심 라이브러리
+faiss-cpu # 벡터 데이터베이스 라이브러리
+langchain-openai 
