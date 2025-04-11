@@ -47,7 +47,6 @@ elif st.session_state.profile_clicked == True :
         else : 
             file = is_txt_file(prompt.files[0])
             messages = file.read().decode("utf-8")
-            st.write(messages)
             response = make_ai_response(MODEL[choice_model].value[1],messages=st.session_state.messages)
             st.write(response)
 

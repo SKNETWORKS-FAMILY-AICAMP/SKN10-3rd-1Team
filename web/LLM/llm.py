@@ -32,11 +32,11 @@ def load_vector_store() -> Chroma:
 
     return db
 
-def search_similarity(query, vector_store:Chroma, k:int=3) -> str:
+def search_similarity(self_instruction:str, vector_store:Chroma, k:int=3) -> str:
     """Search for similar documents in the vector store."""
-    return vector_store.similarity_search(query, k=k)[0].page_content
+    return vector_store.similarity_search(self_instruction, k=k)[0].page_content
 
-def get_prompt() -> PromptTemplate:
+def get_prompt_template() -> PromptTemplate:
     """Get the prompt for the chat model."""
     return PromptTemplate(
         template="""
