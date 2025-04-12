@@ -3,13 +3,11 @@ from langchain_community.chat_models import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 import time
-from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 
 def load_vector_store() -> FAISS:
     db = FAISS.load_local(
-        folder_path="../../data/faiss_db",
+        folder_path="../data/faiss_db",
         index_name="faiss_index",
         embeddings=OpenAIEmbeddings(model="text-embedding-3-small"),
         allow_dangerous_deserialization=True,
