@@ -5,6 +5,7 @@ from langchain_core.output_parsers import StrOutputParser
 import time
 from langchain_openai import OpenAIEmbeddings
 
+
 def load_vector_store() -> FAISS:
     db = FAISS.load_local(
         folder_path="../data/faiss_db",
