@@ -223,6 +223,7 @@
 # 6. RAG
 ### ✅데이터 수집
 1. 삼성전자 직무기술서 데이터 수집 (https://community.linkareer.com/employment_data/3367812)
+![삼성전자 직무기술서](./readme_image/삼성전자_직무기술서.png)
 2. pdf 로드
 3. 600자 단위로 텍스트 청크 분할
 4. OpenAIEmbeddings(model="text-embedding-3-small")로 텍스트 벡터화
@@ -230,6 +231,8 @@
 
 **기대효과**
 > 직무에 부합하는 피드백을 제공하고 채용 공고 및 직무 요구사항과의 정합성을 높인 답변을 생성
+
+
 
 
 <br><br>
