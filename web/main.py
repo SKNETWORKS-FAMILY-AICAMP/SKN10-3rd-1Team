@@ -27,7 +27,7 @@ load_dotenv()
 init_history()
 print_history_message()
 init_button_session()
-#vector_db = load_vector_store()  faiss_db를 못찾는것같아서 다른 기능 개발을 위해 일단 작동 중지시킴.
+#vector_db = load_vector_store()  # faiss_db를 못찾는것같아서 다른 기능 개발을 위해 일단 작동 중지시킴.
 
 # api 키 설정
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
