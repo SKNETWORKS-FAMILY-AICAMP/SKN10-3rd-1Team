@@ -13,10 +13,11 @@ def print_message(role, message):
       st.markdown(message)
       messages = message
 
-def print_history_message():
-  # 이전 대화 내역을 화면에 표시
-  for message in st.session_state.messages:
-    print_message(message["role"], message["content"])
+def print_history_message(function_name):
+    for message in st.session_state.messages:
+        if message.get("function") == function_name:
+            print_message(message["role"], message["content"])
+
 
 def generate_msg(message):
     for token in message:

@@ -45,8 +45,6 @@ def get_prompt_template(tavily=False) -> PromptTemplate:
 def get_answer(llm, context:str, self_instruction:str, query:str, prompt=get_prompt_template()) :
     """Get the answer from the chat model."""
     chain = prompt | llm | StrOutputParser()
-    for token in chain.stream({"context": context, "self_instruction": self_instruction, "query": query}):
-        yield token
-        time.sleep(0.05) 
+    return chain.invoke({"context": context, "self_instruction": self_instruction, "query": query})
 
 

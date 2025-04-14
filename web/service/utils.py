@@ -3,18 +3,10 @@ from service.history import add_history
 from service.display import print_message, generate_msg
 from service.constant import ROLE_TYPE
 import re
- 
 
-def init_button_session() : 
-    if "profile_clicked" not in st.session_state:
-        st.session_state.profile_clicked = False
-
-    if "posting_clicked" not in st.session_state:
-        st.session_state.posting_clicked = False
-
-def handle_message(role:ROLE_TYPE, messages, msg_type, is_streaming=False) :
+def handle_message(role:ROLE_TYPE, messages,function, is_streaming=False) :
     add_history(role, 
-            messages, msg_type)
+            messages, function=function)
     if is_streaming :
         print_message(role.name,generate_msg(messages))
     else : 
