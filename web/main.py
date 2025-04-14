@@ -4,11 +4,13 @@ from service.display import print_message, print_history_message, generate_msg
 from service.history import init_history, add_history
 from service.utils import init_button_session, handle_message, is_txt_file
 from service.input import get_prompt
-from service.model import make_ai_response
 from LLM.llm import load_vector_store, search_similarity, get_answer
 from langchain.chat_models import ChatOllama
 from dotenv import load_dotenv
-
+from service.tavily_tool import tavily_search_korean
+from langchain.tools import Tool
+import os
+from openai import OpenAI
 
 st.title("삼성전자 취업 컨설팅 챗봇")
 
@@ -25,12 +27,17 @@ load_dotenv()
 init_history()
 print_history_message()
 init_button_session()
-vector_db = load_vector_store()
+#vector_db = load_vector_store()  faiss_db를 못찾는것같아서 다른 기능 개발을 위해 일단 작동 중지시킴.
+
+# api 키 설정
+TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+
 
 if st.session_state.profile_clicked == False and st.session_state.posting_clicked == False :
     if st.button("📜 자소서 피드백"):
         st.session_state.profile_clicked = True
-        add_history(ROLE_TYPE.assistant,"자소서 피드백을 선택하셨습니다. \
+        add_history(ROLE_TYPE.assistant,"📜 자소서 피드백을 선택하셨습니다. \
                     자소서 파일을 올려주시고, 원하시는 질문을 입력하세요!",
                     MSG_TYPE.system.name)
         st.rerun() # rerun() : 전체 재실행, 단 session은 그대로 남아있음.
@@ -38,7 +45,7 @@ if st.session_state.profile_clicked == False and st.session_state.posting_clicke
     if st.button("🏢 구인의뢰 검색"):
         st.session_state.posting_clicked = True
         add_history(ROLE_TYPE.assistant,
-                    "구인의뢰 검색을 선택하셨습니다.",
+                    "🏢 구인의뢰 검색을 선택하셨습니다. 삼성전자 채용, 뉴스, 트렌드 관련 질문에 사용해주세요~",
                     MSG_TYPE.system.name)
         st.rerun() # rerun() : 전체 재실행, 단 session은 그대로 남아있음.
 
@@ -65,5 +72,16 @@ elif st.session_state.posting_clicked == True :
     if prompt is not None : 
         handle_message(ROLE_TYPE.user, prompt, MSG_TYPE.user.name)
 
-
+        # ✅ LangChain Tool 객체 생성
+        tavily_tool = Tool(
+            name="TavilySearchKorean",
+            func=tavily_search_korean,
+            description=(
+                "실시간 웹 검색 결과를 한글로 요약해주는 도구입니다. "
+                "삼성전자 채용, 뉴스, 트렌드 관련 질문에 사용하세요."
+            )
+        )
+        result = tavily_search_korean(prompt, tavily_key=TAVILY_API_KEY, openai_key=OPENAI_API_KEY)
+        handle_message(ROLE_TYPE.assistant, 
+        "🔍 최종 검색 결과 (한국어): " + result, MSG_TYPE.ai.name, is_streaming=True)
 
