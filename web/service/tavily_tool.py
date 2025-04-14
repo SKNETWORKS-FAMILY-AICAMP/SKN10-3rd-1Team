@@ -1,6 +1,12 @@
 import requests
 from openai import OpenAI
 from langchain.tools import Tool
+import streamlit as st
+from langchain_community.chat_models import ChatOllama
+from langchain_core.prompts import PromptTemplate
+from LLM.llm import get_prompt_template
+from langchain_core.output_parsers import StrOutputParser
+import time
 
 # 🔍 Tavily 검색
 def tavily_search(query: str, tavily_key) -> str:
@@ -12,37 +18,21 @@ def tavily_search(query: str, tavily_key) -> str:
     data = {
         "query": query,
         "search_depth": "advanced",
-        "include_answer": True
+        "include_answer": True,
+        "max_results": 5,
     }
 
     response = requests.post(url, json=data, headers=headers)
     if response.status_code == 200:
         result = response.json()
-        return result.get("answer", "검색 결과가 없습니다.")
+        return result
     else:
         return f"Tavily 검색 오류: {response.status_code} - {response.text}"
 
-# 🌐 영어 → 한글 번역 (GPT 사용)
-def translate_to_korean(text: str, openai_key) -> str:
-    try:
-        # ✅ OpenAI 초기화
-        client = OpenAI(api_key=openai_key)
-
-        messages = [
-            {"role": "system", "content": "You are a translator that translates English to Korean."},
-            {"role": "user", "content": f"Translate this to Korean:\n{text}"}
-        ]
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=messages
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"번역 오류: {str(e)}"
 
 # 🧠 전체 통합
-def tavily_search_korean(query: str, tavily_key, openai_key) -> str:
-    english_result = tavily_search(query, tavily_key=tavily_key)
-    korean_result = translate_to_korean(english_result, openai_key=openai_key)
-    return korean_result
-
+def tavily_search_korean(query: str, tavily_key, openai_key, llm) -> str:
+    context = tavily_search(query, tavily_key=tavily_key)
+    prompt_template = get_prompt_template(tavily=True)
+    chain = prompt_template | llm | StrOutputParser()
+    return chain.invoke({"context": context, "query": query})

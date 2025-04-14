@@ -5,12 +5,11 @@ from service.history import init_history, add_history
 from service.utils import init_button_session, handle_message, is_txt_file
 from service.input import get_prompt
 from LLM.llm import load_vector_store, search_similarity, get_answer
-from langchain.chat_models import ChatOllama
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from service.tavily_tool import tavily_search_korean
 from langchain.tools import Tool
 import os
-from openai import OpenAI
 
 st.title("삼성전자 취업 컨설팅 챗봇")
 
@@ -27,7 +26,8 @@ load_dotenv()
 init_history()
 print_history_message()
 init_button_session()
-#vector_db = load_vector_store()  faiss_db를 못찾는것같아서 다른 기능 개발을 위해 일단 작동 중지시킴.
+vector_db = load_vector_store()  #faiss_db를 못찾는것같아서 다른 기능 개발을 위해 일단 작동 중지시킴.
+llm = ChatGroq(model="gemma2-9b-it")
 
 # api 키 설정
 TAVILY_API_KEY = os.environ.get("TAVILY_API_KEY")
@@ -62,7 +62,6 @@ elif st.session_state.profile_clicked == True :
             file = is_txt_file(prompt.files[0])
             messages = file.read().decode("utf-8")
             context = search_similarity(messages, vector_db)
-            llm = ChatOllama(model="gemma3")
             response =  get_answer(llm, context, messages, prompt.text)
             st.write(response)
 
@@ -81,7 +80,7 @@ elif st.session_state.posting_clicked == True :
                 "삼성전자 채용, 뉴스, 트렌드 관련 질문에 사용하세요."
             )
         )
-        result = tavily_search_korean(prompt, tavily_key=TAVILY_API_KEY, openai_key=OPENAI_API_KEY)
+        result = tavily_search_korean(prompt, tavily_key=TAVILY_API_KEY, openai_key=OPENAI_API_KEY, llm=llm)
         handle_message(ROLE_TYPE.assistant, 
         "🔍 최종 검색 결과 (한국어): " + result, MSG_TYPE.ai.name, is_streaming=True)
 
